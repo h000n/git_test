@@ -29,6 +29,7 @@ def print_news(index, title, link):
 def times(n,m):
     print("카이스트신문")
     print()
+    tot_words = 0
     url = "https://times.kaist.ac.kr/news/articleList.html?view_type=sm"
     soup = create_soup(url)
     news_list = soup.find("ul", attrs={"class": "type2"}).find_all(
@@ -40,13 +41,16 @@ def times(n,m):
         link = a_tag["href"]
         if m==0:
             print_news(index, title, "https://times.kaist.ac.kr"+link)
+            tot_words += len(title+link+"https://times.kaist.ac.kr")
         else:
             print_news(index, title,0)
-
+            tot_words += len(title)
+    return tot_words
 def nkds(n,m):
     print("KAIST 생활관")
     print()
-    url = "https://nkds.kaist.ac.kr/board/notice/noticeList.do?lang=ko"
+    tot_words = 0
+    url = "https://kds.kaist.ac.kr/board/notice/noticeList.do?lang=ko"
     soup = create_soup(url)
     news_list = soup.find("tbody").find_all(
         "tr", limit=n)  # 6개까지만 가져오기
@@ -57,13 +61,16 @@ def nkds(n,m):
         link = a_tag["href"]
         if m==0:
             print_news(index, title,0)#link no access
+            tot_words += len(title)
         else:
             print_news(index, title,0)
-
+            tot_words += len(title)
+    return tot_words
 def clinic(n,m):
     print("KAIST Clinic Pappalardo Center")
     print()
-    url = "https://clinic.kaist.ac.kr/boards/lst/notice"
+    tot_words = 0
+    url = "https://clinic.kaist.ac.kr/notice"
     soup = create_soup(url)
     news_list = soup.find("tbody").find_all(
         "tr", limit=n)  # 6개까지만 가져오기
@@ -73,12 +80,15 @@ def clinic(n,m):
         link = a_tag["href"]
         if m==0:
             print_news(index, title,"https://clinic.kaist.ac.kr"+link)#link no access
+            tot_words += len(title+link+"https://clinic.kaist.ac.kr")
         else:
             print_news(index, title,0)
-
+            tot_words += len(title)
+    return tot_words
 def herald(n,m):
     print(" The KAIST Herald ")
     print()
+    tot_words = 0
     url = "http://herald.kaist.ac.kr/news/articleList.html?sc_section_code=S1N1&view_type=sm"
     soup = create_soup(url)
     news_list = soup.find("ul", attrs={"class": "type2"}).find_all(
@@ -89,31 +99,43 @@ def herald(n,m):
         link = a_tag["href"]
         if m==0:
             print_news(index, title, "http://herald.kaist.ac.kr"+link)
+            tot_words += len(title+link+"http://herald.kaist.ac.kr")
         else:
             print_news(index, title,0)
+            tot_words += len(title)
+    return tot_words
 
-
-def heraldop(n,m):
-    print(" The KAIST Herald ")
-    print()
-    url = "http://herald.kaist.ac.kr/news/articleList.html?sc_section_code=S1N12&view_type=sm"
-    soup = create_soup(url)
-    news_list = soup.find("ul", attrs={"class": "type2"}).find_all(
-        "h4", limit=n)  # 6개까지만 가져오기
-    for index, news in enumerate(news_list):
-        a_tag = news.find_all("a")[0]
-        title = a_tag.get_text().strip()
-        link = a_tag["href"]
-        if m==0:
-            print_news(index, title, "http://herald.kaist.ac.kr"+link)
-        else:
-            print_news(index, title,0)
+# def heraldop(n,m):
+#     print(" The KAIST Herald ")
+#     print()
+#     tot_words = 0
+#     url = "http://herald.kaist.ac.kr/news/articleList.html?sc_section_code=S1N12&view_type=sm"
+#     soup = create_soup(url)
+#     news_list = soup.find("ul", attrs={"class": "type2"}).find_all(
+#         "h4", limit=n)  # 6개까지만 가져오기
+#     for index, news in enumerate(news_list):
+#         a_tag = news.find_all("a")[0]
+#         title = a_tag.get_text().strip()
+#         link = a_tag["href"]
+#         if m==0:
+#             print_news(index, title, "http://herald.kaist.ac.kr"+link)
+#             tot_words += len(title+link+"http://herald.kaist.ac.kr")
+#         else:
+#             print_news(index, title,0)
+#             tot_words += len(title)
+#     return tot_words
 ################################
 
 n = int(input("how many?:"))
-m = int(input("link?(yes=0):"))
-functions= [heraldop,herald,clinic,nkds,times]
+
+try:
+    m = int(input("link?(yes=0):"))
+except:
+    m = 1
+
+functions= [herald,clinic,nkds,times]
 for i in range(len(functions)):
-    functions[i](n,m)
-    print("-------------------------------------------")
-    time.sleep(4*n)
+    tot_words = functions[i](n,m)
+    print("-------------------------------------------",tot_words)
+    time.sleep(tot_words/23)
+    # 글자 수 -> 시간간

@@ -10,7 +10,6 @@ def create_soup(url):
     soup = BeautifulSoup(res.text, "lxml")
     return soup
 def image():
-    print("s")
     # Chrome의 경우 | 아까 받은 chromedriver의 위치를 지정해준다.
     driver = webdriver.Chrome(r'C:/Users/hoon/Desktop/pr/chromedriver_win32/chromedriver.exe')
     driver.implicitly_wait(3)
@@ -18,7 +17,7 @@ def image():
     # driver.find_element_by_name('id').send_keys('naver_id')
     # driver.find_element_by_name('pw').send_keys('mypassword1234')
     # driver.find_element_by_xpath('//*[@id="frmNIDLogin"]/fieldset/input').click()
-    driver.get('http://211.56.5.130:8080/SynapDocViewServer/viewer/doc.html?key=0b4d8b7851434aa5a5fd637c3253c7e6&convType=img&convLocale=ko_KR&contextPath=/SynapDocViewServer')
+    driver.get('')
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
     news_list = soup.find_all("div", attrs={"class": "contents-page"})

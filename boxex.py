@@ -32,15 +32,15 @@
 # plt.show()
 
 from secrets import choice
-import matplotlib.pyplot as plt
 from tqdm import tqdm
-import seaborn as sns
 import numpy as np
 import random
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 number = 0
 lists = [0]*101
-for sim in tqdm(range(1000000)):
+for sim in tqdm(range(10000)):
     success = 0
     prisoners = list(range(100))
     boxes = dict()

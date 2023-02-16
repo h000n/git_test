@@ -1,3 +1,5 @@
+import numpy as np
+import time 
 def Insertion(s,n):
     j = n
     while j>=1:
@@ -11,7 +13,10 @@ def Insertion(s,n):
         s[n-j]=val
         j-=1
     return s
-s = [1,33,13,3,2,3,5,24,1]
+s = list(np.array(range(1, 100000, 1)))
+s.reverse()
 n = len(s)
+time_now = time.time()
 so = Insertion(s,n)
-print(so)
+time_end = time.time()
+print(time_end-time_now)
